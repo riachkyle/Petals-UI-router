@@ -1,0 +1,110 @@
+<div class="block-flat">
+  <div class="header text-center">
+    <h3>Account manager</h3>
+  </div>
+
+  <div class="content full-width">
+    
+    <div class="row">
+
+
+
+        <div ng-controller="AccountCtrl as account" >
+
+          <div class="col-md-6">
+            <ul class="no-bullet">
+              <li ng-repeat="a in accounts">
+
+                <div ng-hide="account.showEdit == a.id">
+                  <span ng-bind="a.owner_name"></span>
+                  <span ng-bind="a.ig_account"></span>
+                  <span ng-bind="a.engagement"></span>
+
+                  <a ng-click="account.obliterate( a )"
+                  class="btn sm btn-warning">
+                  x
+                </a>
+
+                <a ng-click="account.modify( a )"
+                class="tiny button round success">
+                modify
+              </a>
+            </div>
+
+            <form ng-submit="account.update( a )"
+            ng-show="account.showEdit == a.id">
+            <div class="row">
+              <div class="small-10">
+                <div class="row">
+                  <div class="small-4 columns">
+                    <input type="text" id="right-label"
+                    placeholder="Owner" 
+                    ng-model="a.owner_name">
+                  </div>
+                  <div class="small-4 columns">
+                    <input type="text" id="right-label"
+                    placeholder="IG-account" 
+                    ng-model="a.ig_account">
+                  </div>
+                  <div class="small-2 columns">
+                    <input type="text" id="right-label"
+                    placeholder="Engagement" 
+                    ng-model="a.engagement">
+                  </div>
+                  <div class="small-2 columns">
+                    <input type="submit" id="right-label"
+                    class="btn btn-primary" value="Update">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form> 
+
+        </li>
+
+
+      </ul>
+    </div>
+
+    <form class="col-md-6" ng-submit="account.add()">
+
+      <h3>
+        Add a new account
+      </h3>
+
+      <div class="row">
+
+        <div class="small-3 columns">
+          <span class="prefix">Owner</span>
+        </div>
+        <div class="small-9 columns">
+          <input type="text" placeholder="Value"
+          ng-model="newAccount.owner_name">
+        </div>
+        <div class="small-3 columns">
+          <span class="prefix">@IG-account</span>
+        </div>
+        <div class="small-9 columns">
+          <input type="text" placeholder="Value" 
+          ng-model="newAccount.ig_account">
+        </div>
+
+        <div class="small-3 columns">
+          <span class="prefix">Engagement</span>
+        </div>
+        <div class="small-9 columns">
+          <input type="number" placeholder="%"
+          ng-model="newAccount.engagement">
+        </div>
+
+        <input type="submit" class="btn btn-primary">
+
+      </div>
+      
+    </form>
+
+  
+</div>
+</div>
+</div>
+</div>

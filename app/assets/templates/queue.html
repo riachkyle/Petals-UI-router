@@ -1,0 +1,228 @@
+
+<div class="block-flat">
+  <div class="header text-center">
+    <h3>Queue</h3>
+  </div>
+  <div class="content full-width">
+
+    <div class="row">
+
+      <div ng-app="petals" class="col-md-12">
+        <div ng-controller="queueCtrl" >
+
+          <div class="col-md-6">
+
+
+            <ul class="list-group">
+              <li ng-repeat="post in posts" class="list-group-item">
+
+                <h2 class="list-group-item-heading">
+                  {{ post.caption }}
+                </h4>
+
+                <p class="list-group-item-text">
+                  {{ post.release_date | date:'MM-dd-yyyy HH:mm a' }}
+                </p>
+                <img src="{{ post.medium_pic }}" />
+
+                <a ng-click="destroyPost( post )" class="btn btn-warning btn-rad">
+                  X
+                </a>
+                <a ng-click="editPost( post )" class="btn btn-info btn-rad">
+                  Edit
+                </a>
+
+            <div ng-show="showEdit">
+              <form class="form-horizontal" role="form" ng-submit="updatePost( post )" name="postForm">
+
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">Picture</label>
+
+                  <div class="col-sm-8">
+                    <input type="file" id="fileUpload" ng-show="false" upload-image />
+                    <span ng-click="openFileWindow()" ng-class="{ hidden: !post.imagePath}" class="btn btn-rad btn-trans btn-success">
+                      {{post.imagePath}}
+                    </span>
+                    <a class="drop-box btn btn-primary" ng-click="openFileWindow()" ng-class="{hidden: post.imagePath}">
+                        Click to add an image.
+                    </a>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">Caption</label>
+                  <div class="col-sm-8">
+                    <input type="textarea" class="form-control" id="caption" placeholder="Caption..." ng-model="post.caption">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">Time</label>
+
+                  <div class="col-sm-8">
+                    <div class="dropdown" ng-show="newPost.release_date">
+                      <a class="dropdown-toggle btn btn-info btn-trans" id="dLabel2" role="button"
+                        data-toggle="dropdown" data-target="#" href="">
+                        {{ newPost.release_date | date:'MM-dd-yyyy HH:mm a' }}
+                      </a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel2" >
+                        <datetimepicker data-ng-model="newPost.release_date"
+                        data-datetimepicker-config="{ dropdownSelector: '#dLabel' }"></datetimepicker>
+                      </ul>
+                    </div>
+
+                    <div class="dropdown" ng-hide="newPost.release_date">
+                      <a class="dropdown-toggle btn btn-info" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="">
+                        Choose release date
+                      </a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <datetimepicker data-ng-model="newPost.release_date"
+                        data-datetimepicker-config="{ dropdownSelector: '#dLabel' }"></datetimepicker>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" value="Add New Post!!" class="btn btn-primary" ng-hide="loading" ng-disabled="$scope.newPost.imagePath">
+                    <input type="submit" value="Uploading" class="btn btn-primary" ng-show="loading" disabled>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-6">
+
+            <div ng-hide="showEdit">
+
+              <form class="form-horizontal" role="form" ng-submit="addPost()" name="postForm">
+
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">Picture</label>
+
+                  <div class="col-sm-8">
+                    <input type="file" id="fileUpload" ng-show="false" upload-image />
+                    <span ng-click="openFileWindow()" ng-class="{ hidden: !newPost.imagePath}" class="btn btn-rad btn-trans btn-success">
+                      {{newPost.imagePath}}
+                    </span>
+                    <a class="drop-box btn btn-primary" ng-click="openFileWindow()" ng-class="{hidden: newPost.imagePath}">
+                        Click to add an image.
+                    </a>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">Caption</label>
+                  <div class="col-sm-8">
+                    <input type="textarea" class="form-control" id="caption" placeholder="Caption..." ng-model="newPost.caption">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">Time</label>
+
+                  <div class="col-sm-8">
+                    <div class="dropdown" ng-show="newPost.release_date">
+                      <a class="dropdown-toggle btn btn-info btn-trans" id="dLabel2" role="button"
+                        data-toggle="dropdown" data-target="#" href="">
+                        {{ newPost.release_date | date:'MM-dd-yyyy HH:mm a' }}
+                      </a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel2" >
+                        <datetimepicker data-ng-model="newPost.release_date"
+                        data-datetimepicker-config="{ dropdownSelector: '#dLabel' }"></datetimepicker>
+                      </ul>
+                    </div>
+
+                    <div class="dropdown" ng-hide="newPost.release_date">
+                      <a class="dropdown-toggle btn btn-info" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="">
+                        Choose release date
+                      </a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <datetimepicker data-ng-model="newPost.release_date"
+                        data-datetimepicker-config="{ dropdownSelector: '#dLabel' }"></datetimepicker>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" value="Add New Post!!" class="btn btn-primary" ng-hide="loading" ng-disabled="$scope.newPost.imagePath">
+                    <input type="submit" value="Uploading" class="btn btn-primary" ng-show="loading" disabled>
+                  </div>
+                </div>
+              </form>
+
+              <div class="alert alert-danger alert-white-alt rounded" ng-show="errors" ng-repeat="err in err_messages" >
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <div class="icon"><i class="fa fa-times-circle"></i></div>
+                <strong>Error!</strong> {{err[0]}}
+              </div>  
+
+            </div>
+
+            <div ng-show="showEdit">
+              <h3>Edit your post!!</h3>
+              <form ng-submit="updatePost( post )" name="postForm">
+                <div class="row">
+
+                  <div class="small-3 columns">
+                    <span class="prefix">Caption</span>
+                  </div>
+                  <div class="small-9 columns">
+                    <input type="text" placeholder="Value" 
+                    ng-model="post.caption" required>
+                  </div>
+
+
+
+
+                  <div class="small-3 columns">
+                    <span class="prefix">Picture</span>
+                  </div>
+                  <div class="small-9 columns">
+                    <input type="text" placeholder="Value"
+                    ng-model="post.picture">
+                  </div>
+
+                </div>
+                <div class="row">
+
+                  <div class="small-3 columns">
+                    <span class="prefix">Location</span>
+                  </div>
+                  <div class="small-9 columns">
+                    <input type="text" placeholder="Value"
+                    ng-model="post.location">
+                  </div>
+
+                  <div class="small-3 columns">
+                    <span class="prefix">Release Date</span>
+                  </div>
+                  <div class="small-9 columns">
+                    <input type="date" placeholder="Value"
+                    ng-model="post.release_date">
+                  </div>
+
+
+                </div>
+                <input type="submit" value="Update!" class="button radius">
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+</div>
+
+
+
